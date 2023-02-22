@@ -10,6 +10,7 @@
         "email": "glynn.quelch@gmail.com",
         "homepage": "https://github.com/gin0115"
     }],
-    "require-dev": {},
-    "require": {}
+    "require": {
+        "php-stubs/generator": "0.7.*"
+    }
 }
