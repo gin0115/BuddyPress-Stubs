@@ -12,5 +12,8 @@
     }],
     "require": {
         "php-stubs/generator": "0.7.*"
+    },
+    "archive": {
+        "exclude": ["source", "composer.json", "run.php", ".gitingore", "README.md"]
     }
 }
