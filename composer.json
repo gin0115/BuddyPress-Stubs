@@ -1,0 +1,15 @@
+{
+    "name": "gin0115/buddypress-stubs",
+    "type": "library",
+    "description": "BuddyPress Stubs",
+    "keywords": [],
+    "homepage": "https://github.com/gin0115/BuddyPress-Stubs",
+    "license": "MIT",
+    "authors": [{
+        "name": "Glynn Quelch",
+        "email": "glynn.quelch@gmail.com",
+        "homepage": "https://github.com/gin0115"
+    }],
+    "require-dev": {},
+    "require": {}
+}
