@@ -65,6 +65,20 @@ if ( ! $stub ) {
 	throw new Exception( 'No stubs generated.' );
 }
 
+// Funtions to remove.
+$remove = array(
+	'is_site_admin',
+);
+
+// Remove functions.
+foreach ( $remove as $function ) {
+	$find    = 'function ' . $function . '(';
+	$replace = sprintf( 'function IGNORE_%s_%s(', $function, md5( time() ) );
+	$stub    = str_replace( $find, $replace, $stub );
+	// preg_replace( '/function ' . $function . '.*?}/s', '', $stub );
+}
+
+
 // Write stub to file.
 
 // Create if it doesnt exist, clear if it does.
