@@ -14,6 +14,6 @@
         "php-stubs/generator": "*"
     },
     "archive": {
-        "exclude": ["/source", "/composer.json", "/run.php", "/.gitignore", "/README.md"]
+        "exclude": ["source", "composer.json", "run.php", ".gitignore", "README.md"]
     }
 }
