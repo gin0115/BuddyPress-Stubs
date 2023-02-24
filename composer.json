@@ -11,6 +11,9 @@
         "homepage": "https://github.com/gin0115"
     }],
     "require": {
-        "php-stubs/generator": "0.7.*"
+        "php-stubs/generator": "*"
+    },
+    "archive": {
+        "exclude": ["source", "composer.json", "run.php", ".gitignore", "README.md"]
     }
 }

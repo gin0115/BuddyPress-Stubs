@@ -51,7 +51,9 @@ $generator = new StubsGenerator( StubsGenerator::ALL );
 
 // Then, create a `StubsGenerator\Finder` which contains
 // the set of files you wish to generate stubs for.
-$finder = Finder::create()->in( __DIR__ . '/source/buddypress' );
+$finder = Finder::create()
+	->in( __DIR__ . '/source/buddypress' )
+	->exclude( 'cli' );
 
 // Now you may use the `StubsGenerator::generate()` method,
 // which will return a `StubsGenerator\Result` instance.
@@ -64,6 +66,19 @@ $stub = $result->prettyPrint();
 if ( ! $stub ) {
 	throw new Exception( 'No stubs generated.' );
 }
+
+// Functions to remove.
+$remove = array(
+	'is_site_admin',
+);
+
+// Remove functions.
+foreach ( $remove as $function ) {
+	$find    = 'function ' . $function . '(';
+	$replace = sprintf( 'function IGNORE_%s_%s(', $function, md5( time() ) );
+	$stub    = str_replace( $find, $replace, $stub );
+}
+
 
 // Write stub to file.
 
