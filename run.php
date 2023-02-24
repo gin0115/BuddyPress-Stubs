@@ -77,7 +77,6 @@ foreach ( $remove as $function ) {
 	$find    = 'function ' . $function . '(';
 	$replace = sprintf( 'function IGNORE_%s_%s(', $function, md5( time() ) );
 	$stub    = str_replace( $find, $replace, $stub );
-	// preg_replace( '/function ' . $function . '.*?}/s', '', $stub );
 }
 
 
