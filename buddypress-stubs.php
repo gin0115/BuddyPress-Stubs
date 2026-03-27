@@ -33689,7 +33689,7 @@ function bp_core_is_main_site($blog_id = '')
  * @param int|bool $user_id Optional. Defaults to logged-in user
  * @return bool True if is super admin
  */
-function IGNORE_is_site_admin_0875022b2a08c9e4103c3ea914b2bc86($user_id = \false)
+function IGNORE_is_site_admin_953e7a3fdf5e162dfe06472ee5e0ea66($user_id = \false)
 {
 }
 /** Admin ******************************************************************/
