@@ -1,0 +1,67 @@
+name: Create Releases for Tags
+
+on:
+  push:
+    branches:
+      - "copilot/create-releases-for-tags"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  create-releases:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create releases for tags without releases (oldest first)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OWNER="${{ github.repository_owner }}"
+          REPO="${{ github.event.repository.name }}"
+
+          echo "Fetching all tags..."
+          ALL_TAGS=$(gh api "repos/${OWNER}/${REPO}/tags" --paginate --jq '.[].name')
+
+          echo "Fetching all existing releases..."
+          EXISTING_RELEASES=$(gh api "repos/${OWNER}/${REPO}/releases" --paginate --jq '.[].tag_name')
+
+          echo "Finding tags without releases..."
+          TAGS_WITHOUT_RELEASES=()
+          while IFS= read -r tag; do
+            if ! echo "$EXISTING_RELEASES" | grep -qx "$tag"; then
+              TAGS_WITHOUT_RELEASES+=("$tag")
+            fi
+          done <<< "$ALL_TAGS"
+
+          echo "Tags needing releases:"
+          for tag in "${TAGS_WITHOUT_RELEASES[@]}"; do
+            echo "  - $tag"
+          done
+
+          # Sort tags from oldest to newest using version sort
+          echo "Sorting tags from oldest to newest..."
+          SORTED_TAGS=$(printf '%s\n' "${TAGS_WITHOUT_RELEASES[@]}" | sort -V)
+
+          echo "Creating releases from oldest to newest..."
+          while IFS= read -r TAG; do
+            if [ -z "$TAG" ]; then
+              continue
+            fi
+            echo "Creating release for tag: $TAG"
+            gh release create "$TAG" \
+              --repo "${OWNER}/${REPO}" \
+              --title "$TAG" \
+              --notes "BuddyPress Stubs ${TAG}" \
+              --latest \
+              && echo "  ✓ Created release for $TAG" \
+              || echo "  ✗ Failed to create release for $TAG"
+          done <<< "$SORTED_TAGS"
+
+          echo ""
+          echo "Done! All releases processed."
